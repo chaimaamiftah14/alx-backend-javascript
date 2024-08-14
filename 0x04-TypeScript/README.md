@@ -1,0 +1,1 @@
+typeScript redme file
