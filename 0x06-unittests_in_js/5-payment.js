@@ -1,8 +1,16 @@
-const Utils = require('./utils');
+const {describe, it} = require("mocha");
+const sinon = require("sinon");
+const sendPaymentRequestToApi = require("./4-payment");
+const Utils = require("./utils");
+const assert = require("assert");
 
-const sendPaymentRequestToApi = (totalAmount, totalShipping) => {
-  const totalCost = Utils.calculateNumber('SUM', totalAmount, totalShipping);
-  console.log(`The total is: ${totalCost}`);
-};
+describe("sendPaymentRequestToApi", function() {
+    it("check that Utils.calculateNumber is stubbed", function() {
+	const spy = sinon.spy(console, "log");
+	const stub = sinon.stub(Utils, "calculateNumber").returns(10);
+	sendPaymentRequestToApi(100, 20);
 
-module.exports = sendPaymentRequestToApi;
+	assert(spy.withArgs("The total is: 10").calledOnce);
+	assert(stub.withArgs("SUM", 100, 20).calledOnce);
+    });
+});
